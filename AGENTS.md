@@ -10,3 +10,17 @@ Use [README.md](README.md) for environment setup and operational constraints. Di
 2. Follow the architecture conventions across every affected caller, contract, and table. Keep the starter free of sample business modules and mandatory empty layers.
 3. Verify the changed behavior, then run the repository quality command. Import-policy changes also require the lint rule's behavior tests. Report checks actually run and any unavailable runtime prerequisites.
 4. Update the architecture document when conventions change; keep this entrypoint a pointer rather than a duplicate rulebook.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live in local markdown under `.scratch/`. Before reading or publishing tickets, read `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five default triage roles. Before triaging issues, read `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context: root `GLOSSARY-MAP.md` links context glossaries. Before exploring domain concepts or proposing decisions, read `docs/agents/domain.md`.
