@@ -1,0 +1,37 @@
+{
+  "name": "fullstack-bun-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.4"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter './apps/*' --parallel dev",
+    "dev:api": "bun run --cwd apps/api dev",
+    "dev:web": "bun run --cwd apps/web dev",
+    "build": "bun run --cwd apps/web build",
+    "start:api": "bun run --cwd apps/api start",
+    "preview": "bun run build && WEB_DIST_DIR=$PWD/apps/web/dist bun run start:api",
+    "typecheck": "bun run --filter './packages/*' --filter './apps/*' typecheck",
+    "lint": "eslint . --max-warnings 0",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "test": "bun test",
+    "db:generate": "bun run --cwd packages/db generate",
+    "db:migrate": "bun run --cwd packages/db migrate"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
+    "@eslint/js": "^10.0.1",
+    "@types/bun": "^1.4.4",
+    "eslint": "^10.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2"
+  }
+}
