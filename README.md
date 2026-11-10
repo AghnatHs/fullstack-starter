@@ -64,14 +64,10 @@ Commit the generated files. Applying migrations needs `DATABASE_URL` and a reach
 ## Quality commands
 
 ```sh
-bun run format:check
-bun run lint
-bun run typecheck
-bun run test
-bun run build
+bun run quality
 ```
 
-`bun run format` applies formatting. CI runs these commands with Bun 1.4 and installs with `bun install --frozen-lockfile`. Commit `bun.lock` after an intentional dependency change. The test suite does not need Postgres, Valkey, or S3Mock.
+`bun run quality` runs `format:check`, `lint`, `typecheck`, `test`, and `build`, in that order. CI runs the same commands with Bun 1.4 and installs with `bun install --frozen-lockfile`. `bun run format` applies formatting. Commit `bun.lock` after an intentional dependency change. The test suite does not need Postgres, Valkey, or S3Mock.
 
 ## Production Compose
 
