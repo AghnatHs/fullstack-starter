@@ -1,5 +1,8 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import moduleBoundaries from './scripts/eslint-module-boundaries.mjs';
 
 export default [
   {
@@ -8,19 +11,12 @@ export default [
   { ...js.configs.recommended, files: ['**/*.mjs'] },
   ...tseslint.configs.recommended,
   {
-    files: ['apps/web/**/*.{ts,tsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx,mts,cts}'],
+    plugins: {
+      starter: moduleBoundaries(dirname(fileURLToPath(import.meta.url))),
+    },
     rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['@starter/db', '@starter/db/*', '**/packages/db/**'],
-              message: 'Database access belongs in apps/api.',
-            },
-          ],
-        },
-      ],
+      'starter/module-boundaries': 'error',
     },
   },
 ];

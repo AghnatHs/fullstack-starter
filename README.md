@@ -30,6 +30,12 @@ Run one app with `bun run dev:api` or `bun run dev:web`. Run `bun run preview` t
 - `packages/shared` (`@starter/shared`): Shared packages that web and api can use. This starter contain Zod schemas and inferred TypeScript types for HTTP responses.
 - `packages/db` (`@starter/db`): Drizzle schema, Bun SQL connection, and migration tooling.
 
+## Business-first development
+
+Application features live in `apps/api/src/module/<name>/` and `apps/web/src/module/<name>/`. Each module exposes an explicit `index.ts`; callers use that interface while implementation files stay local to the feature. `bun run lint` enforces module entrypoints and browser/server import direction.
+
+Read [ARCHITECTURE.md](ARCHITECTURE.md) before adding a feature or changing module interactions. It covers placement, public operations, shared transactions, and the feature-development checklist. Coding agents start at [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) links to the same guidance.
+
 ## Rate limiting
 
 Requests use a fixed window per client address. The default is 60 requests per 60 seconds. Set `RATE_LIMIT_MAX` and `RATE_LIMIT_WINDOW_SECONDS` to change it. `/api/health` and `/api/ready` are never limited.
@@ -42,7 +48,7 @@ The limiter uses the direct connection address. It ignores `X-Forwarded-For` unl
 
 ## Object storage
 
-`apps/api/src/platform/files/storage.ts` provides a server-only adapter with `upload`, `download`, `remove`, and `copy` over an S3-compatible endpoint.
+`apps/api/src/lib/storage.ts` provides a server-only adapter with `upload`, `download`, `remove`, and `copy` over an S3-compatible endpoint.
 
 ## SPA serving
 

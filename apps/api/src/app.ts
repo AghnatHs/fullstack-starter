@@ -6,7 +6,7 @@ import { serveWebApp } from './lib/web-static';
 import { noStore } from './middleware/api-cache';
 import { handleError, handleNotFound } from './middleware/error';
 import { rateLimit } from './middleware/rate-limit';
-import { createHealthRoutes } from './module/health/routes';
+import { createHealthRoutes } from './module/health';
 
 export type AppDependencies = {
   readonly checkDatabase: () => Promise<void>;

@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { healthQuery, readinessQuery } from '../lib/status';
+import { healthQuery, readinessQuery } from './queries';
 
 export function StatusPage() {
   const health = useQuery(healthQuery);

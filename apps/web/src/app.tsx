@@ -1,5 +1,5 @@
 import { Link, Route, Routes } from 'react-router';
-import { StatusPage } from './routes/status';
+import { StatusPage } from './module/status';
 
 export function App() {
   return (
