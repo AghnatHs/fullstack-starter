@@ -6,7 +6,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { z } from 'zod';
-import { formatIssues } from '../../lib/validation';
+import { formatIssues } from './validation';
 
 export type StorageObject = {
   readonly body: ReadableStream<Uint8Array>;

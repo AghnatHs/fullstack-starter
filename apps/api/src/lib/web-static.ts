@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 import type { Hono } from 'hono';
-import { serveStatic } from 'hono/bun';
+import { serveStatic } from '@hono/bun';
 import { compress } from 'hono/compress';
 
 export function serveWebApp(app: Hono, distDir: string) {

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { createStorageFromEnv } from '../src/platform/files/storage';
+import { createStorageFromEnv } from '../src/lib/storage';
 
 const validEnv = {
   S3_ENDPOINT: 'http://127.0.0.1:9000',
