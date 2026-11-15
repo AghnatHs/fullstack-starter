@@ -28,7 +28,7 @@
     "db:migrate": "bun run --cwd packages/db migrate"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.6",
+    "@biomejs/biome": "^2.6.7",
     "@eslint/js": "^10.0.1",
     "@types/bun": "^1.4.4",
     "eslint": "^10.14.0",
