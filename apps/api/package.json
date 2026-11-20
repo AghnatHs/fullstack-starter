@@ -13,7 +13,7 @@
     "@hono/bun": "^1.0.1",
     "@starter/db": "workspace:*",
     "@starter/shared": "workspace:*",
-    "hono": "^4.13.17",
+    "hono": "^4.13.19",
     "zod": "^4.6.7"
   }
 }
