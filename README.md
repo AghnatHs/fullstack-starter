@@ -73,7 +73,7 @@ Commit the generated files. Applying migrations needs `DATABASE_URL` and a reach
 bun run quality
 ```
 
-`bun run quality` runs `format:check`, `lint`, `typecheck`, `test`, and `build`, in that order. CI runs the same commands with Bun 1.4 and installs with `bun install --frozen-lockfile`. `bun run format` applies formatting. Commit `bun.lock` after an intentional dependency change. The test suite does not need Postgres, Valkey, or S3Mock.
+`bun run quality` runs `format:check`, `lint`, `typecheck`, `test`, and `build`, in that order. CI runs the same commands with Bun 1.4 and installs with `bun install --frozen-lockfile`. `bun run format` applies formatting. `bun run lint:fix` applies Biome lint and format fixes. `bun install` also installs the pre-commit hook. The hook runs Biome on staged files and stages the fixes. Commit `bun.lock` after an intentional dependency change. The test suite does not need Postgres, Valkey, or S3Mock.
 
 ## Production Compose
 
