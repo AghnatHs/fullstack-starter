@@ -28,9 +28,6 @@ updates:
       tooling:
         patterns:
           - "typescript"
-          - "typescript-eslint"
-          - "eslint"
-          - "@eslint/js"
           - "@biomejs/biome"
           - "@types/bun"
           - "vite"

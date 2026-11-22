@@ -66,7 +66,7 @@ A shared transaction does not transfer ownership of another module's rules or ta
 
 ## Enforced import rules
 
-`bun run lint` checks resolved source targets, including configured TypeScript aliases, rather than relying on folder names inside import strings:
+`bun run lint` runs Biome's linter and a project script that checks resolved source targets, including configured TypeScript aliases, rather than relying on folder names inside import strings:
 
 - Code outside a module enters through its public index; same-module implementation imports are allowed.
 - Module public indices use explicit exports.

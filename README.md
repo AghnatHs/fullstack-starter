@@ -32,7 +32,7 @@ Run one app with `bun run dev:api` or `bun run dev:web`. Run `bun run preview` t
 
 ## Business-first development
 
-Application features live in `apps/api/src/module/<name>/` and `apps/web/src/module/<name>/`. Each module exposes an explicit `index.ts`; callers use that interface while implementation files stay local to the feature. `bun run lint` enforces module entrypoints and browser/server import direction.
+Application features live in `apps/api/src/module/<name>/` and `apps/web/src/module/<name>/`. Each module exposes an explicit `index.ts`; callers use that interface while implementation files stay local to the feature. `bun run lint` runs Biome and the module-boundary check, which enforces module entrypoints and browser/server import direction.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md) before adding a feature or changing module interactions. It covers placement, public operations, shared transactions, and the feature-development checklist. Coding agents start at [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) links to the same guidance.
 

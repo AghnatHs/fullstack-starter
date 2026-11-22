@@ -29,6 +29,6 @@
       "trailingCommas": "none"
     }
   },
-  "linter": { "enabled": false },
+  "linter": { "enabled": true },
   "assist": { "enabled": false }
 }

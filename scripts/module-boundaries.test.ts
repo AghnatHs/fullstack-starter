@@ -1,14 +1,13 @@
 import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
-import { ESLint } from 'eslint';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import tseslint from 'typescript-eslint';
-import moduleBoundaries from './eslint-module-boundaries.mjs';
+import type { ModuleBoundaryChecker } from './module-boundaries';
+import { createModuleBoundaryChecker } from './module-boundaries';
 
 let root: string;
-let eslint: ESLint;
+let checker: ModuleBoundaryChecker;
 
 beforeAll(() => {
   root = mkdtempSync(resolve(tmpdir(), 'starter-module-lint-'));
@@ -86,25 +85,14 @@ beforeAll(() => {
     file(`packages/${name}/src/schema.ts`, 'export type Value = number;');
   }
   file('tests/consumer.test.ts', '');
-  eslint = new ESLint({
-    cwd: root,
-    overrideConfigFile: true,
-    overrideConfig: [
-      {
-        files: ['**/*.{ts,tsx,mts,cts}'],
-        languageOptions: { parser: tseslint.parser },
-        plugins: { starter: moduleBoundaries(root) },
-        rules: { 'starter/module-boundaries': 'error' },
-      },
-    ],
-  });
+  checker = createModuleBoundaryChecker(root);
 });
 
 afterAll(() => {
   if (root) rmSync(root, { recursive: true, force: true });
 });
 
-type Case = [name: string, filename: string, code: string, messageId?: string];
+type Case = [name: string, filename: string, code: string, rule?: string];
 
 const cases: Case[] = [
   ['composition uses module root', 'apps/api/src/app.ts', "import './module/billing';"],
@@ -439,37 +427,26 @@ const cases: Case[] = [
 ];
 
 describe('resolved module boundaries', () => {
-  for (const [name, filename, code, messageId] of cases) {
-    test(name, async () => {
-      const [result] = await eslint.lintText(code, { filePath: resolve(root, filename) });
-      if (messageId) {
-        expect(result.messages).toHaveLength(1);
-        expect(result.messages[0]).toMatchObject({
-          ruleId: 'starter/module-boundaries',
-          severity: 2,
-          messageId,
-        });
+  for (const [name, filename, code, rule] of cases) {
+    test(name, () => {
+      const violations = checker.lintText(resolve(root, filename), code);
+      if (rule) {
+        expect(violations).toHaveLength(1);
+        expect(violations[0]).toMatchObject({ rule });
       } else {
-        expect(result.messages).toEqual([]);
+        expect(violations).toEqual([]);
       }
     });
   }
 });
 
-test('normal ESLint configuration enforces server-only boundaries without duplicate errors', async () => {
+test('repository configuration enforces server-only boundaries without duplicate errors', () => {
   const repository = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-  const configured = new ESLint({ cwd: repository });
-  const [invalid] = await configured.lintText("import '@starter/db';", {
-    filePath: resolve(repository, 'apps/web/src/module-boundary-probe.ts'),
-  });
-  expect(invalid.messages).toHaveLength(1);
-  expect(invalid.messages[0]).toMatchObject({
-    ruleId: 'starter/module-boundaries',
-    messageId: 'webServerOnly',
-    severity: 2,
-  });
-  const [valid] = await configured.lintText("import '@starter/shared';", {
-    filePath: resolve(repository, 'apps/web/src/module-boundary-probe.ts'),
-  });
-  expect(valid.messages).toEqual([]);
+  const repositoryChecker = createModuleBoundaryChecker(repository);
+  const filename = resolve(repository, 'apps/web/src/module-boundary-probe.ts');
+  const invalid = repositoryChecker.lintText(filename, "import '@starter/db';");
+  expect(invalid).toHaveLength(1);
+  expect(invalid[0]).toMatchObject({ rule: 'webServerOnly' });
+  const valid = repositoryChecker.lintText(filename, "import '@starter/shared';");
+  expect(valid).toEqual([]);
 });
